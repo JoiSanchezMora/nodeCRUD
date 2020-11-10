@@ -7,15 +7,20 @@ router.get('/add', (req, res)=>{
     res.render('links/add');
 });
 
-router.post('/add', (req, res)=>{
+router.post('/add', async (req, res)=>{
     const {titulo, url, descripcion}=req.body;
     const nuevo={
         titulo,
         url,
         descripcion
     }
-    pool.query('INSERT INTO links SET ?', [nuevo]);
-    res.send('recibido');
+    await pool.query('INSERT INTO links SET ?', [nuevo]);
+    res.redirect('/links');
+});
+
+router.get('/', async (req, res)=>{
+    const links = await pool.query('SELECT * FROM links');
+    res.render('links/list', { links });
 });
 
 module.exports=router;
