@@ -8,6 +8,13 @@ router.get('/add', (req, res)=>{
 });
 
 router.post('/add', (req, res)=>{
+    const {titulo, url, descripcion}=req.body;
+    const nuevo={
+        titulo,
+        url,
+        descripcion
+    }
+    pool.query('INSERT INTO links SET ?', [nuevo]);
     res.send('recibido');
 });
 
